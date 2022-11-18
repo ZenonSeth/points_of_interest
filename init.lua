@@ -194,7 +194,8 @@ local function show_poi_formspec(name)
 	minetest.show_formspec(name, POIS_FORM_NAME,
 		"formspec_version[6]"..
 		"size[12,10]"..
-		"bgcolor[#777777AA;;]"..
+		"no_prepend[]"..
+		"bgcolor[#222222BB;;]"..
 		"label[1,0.5;"..POIS_FORM_TITLE.."]"..
 		lineA..lineB..lineC..lineD..lineE..lineF..lineG..lineH..
 		lastLine
