@@ -25,6 +25,8 @@ Nothing special is required to uninstall the mod - simply remove it from your se
 
 You may optionally also delete the file called `points_of_interest.txt` under your world's folder, where the points of interest are stored.
 
+## Screenshot
+<img src="screenshot.png" />
 
 ## Support
 Submit feedback and bugs on github: https://github.com/ZenonSeth/points_of_interest
