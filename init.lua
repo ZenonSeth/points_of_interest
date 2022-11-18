@@ -89,6 +89,7 @@ local function set_poi(name, param)
 		return false, "Error: Incorrect params!"..ERR_MSG_RANGE
 	end
 	POIS_TABLE[index] = {player:get_pos(), description}
+	minetest.chat_send_player(name, "Set POI "..index.." to '"..description.."'")
 	save_pois()
 end
 
@@ -97,8 +98,14 @@ local function remove_poi(name, param)
 	if not index or is_invalid_page(index) then
 		return false, "Error: missing or invalid paramters!"..ERR_MSG_RANGE
 	end
-	POIS_TABLE[index] = nil
-	save_pois()
+	local prevData = POIS_TABLE[index]
+	if not prevData then
+		minetest.chat_send_player(name, "Nothing removed, POI at index "..index.." was already empty.")	
+	else
+		POIS_TABLE[index] = nil
+		minetest.chat_send_player(name, "Removed POI "..index.." / '"..prevData[2].."'")
+		save_pois()
+	end
 end
 
 local function move_poi(name, param)
@@ -111,16 +118,21 @@ local function move_poi(name, param)
 	end
 	local orig1 = POIS_TABLE[index1]
 	local orig2 = POIS_TABLE[index2]
+	local desc1 = ""
+	local desc2 = ""
 	if orig1 then
 		POIS_TABLE[index2] = orig1
+		desc1 = orig1[2]
 	else
 		POIS_TABLE[index2] = nil
 	end
 	if orig2 then
 		POIS_TABLE[index1] = orig2
+		desc2 = orig2[2]
 	elseif orig1 then
 		POIS_TABLE[index1] = nil
 	end
+	minetest.chat_send_player(name, "Swapped POIs \n"..index1..": '"..desc1.."' and\n"..index2..": '"..desc2.."'")
 	save_pois()
 end
 
@@ -133,7 +145,9 @@ local function edit_poi(name, param)
 	if not poi then
 		return false, "Error: POI at index "..index.." does not exist!"
 	end
+	local prevDescription = poi[2]
 	poi[2] = description
+	minetest.chat_send_player(name, "Changed description from: '"..prevDescription.."' to: '"..description.."'")
 	save_pois()
 end
 
